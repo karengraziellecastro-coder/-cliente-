@@ -23,12 +23,15 @@ sys.path.insert(0, APPS_DIR)
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-cybcce#$zu@)ow3$uwx-oypscg5ku9+=4zevf*istggjf(er49'
+SECRET_KEY = 'django-insecure-cybcce#$zu@)ow3$ uwx-oypscg5ku9+=4zevf*istggjf(er49'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+ALLOWED_HOSTS = ['*']
+
 ALLOWED_HOSTS = []
+
 LOGIN_URL = '/login/'
 
 # Application definition
