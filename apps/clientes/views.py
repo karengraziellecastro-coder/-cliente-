@@ -1,11 +1,16 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import authenticationForm
+from django.contrib.auth.decorators import login_required
+ 
 from .forms import ClienteForm
 from .models import Cliente
 
 # Create your views here.
 
+@login_required
 def novo_cliente(request):
     clientes = Cliente.objects.all()
     template_name = 'novo_cliente.html'
@@ -24,6 +29,7 @@ def novo_cliente(request):
 
     return render(request, template_name, context)
 
+@login_required
 def atualizar_cliente(request, id):
     try:
         cliente = Cliente.objects.get(id=id)
@@ -47,6 +53,7 @@ def atualizar_cliente(request, id):
     }      
     return render(request, template_name, context)
 
+@login_required
 def excluir_cliente(request, id):
     try: 
         cliente = Cliente.objects.get(id=id)
@@ -54,3 +61,24 @@ def excluir_cliente(request, id):
     except Cliente.DoesNotExist:
         return HttpResponse('<h1> Erro ao excluir o cliente. Não encontrado<h1>')
     return redirect('novo_cliente')
+
+def login_usuario(request):
+    template_name = 'login.html'
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            usuario = authenticate(username=username, password=password)
+ 
+            if usuario is not None:
+                login(request, usuario)
+                return redirect('novo_cliente')
+        else:
+            return HttpResponse(request, "Usuário ou senha inválidos.")
+    else:
+        form = AuthenticationForm()
+
+    context = {'form': form}
+
+    return render(request, template_name, context)
