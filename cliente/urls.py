@@ -27,5 +27,4 @@ urlpatterns = [
     path('novo_usuario/', views.novo_usuario, name='novo_usuario'),
     path('sair/', views.sair, name='sair'),
     path('', views.novo_cliente, name='novo_cliente'),
-
 ]
